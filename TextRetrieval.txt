@@ -1,0 +1,143 @@
+1) Linear Search or Grep Command
+
+import nltk
+from os import listdir
+from os.path import isfile
+
+file_list = []
+
+pattern = "PORTIA"
+
+def get_files():
+
+    for file in listdir("D:/corpus"):
+
+        if file.endswith(".txt"):
+
+            file_list.append(file)
+
+
+def search_pattern(file):
+    
+    file_content = open("D:/corpus/" + file).read()
+    tokens = nltk.word_tokenize(file_content)
+    
+    if pattern in tokens:
+        
+        return True
+
+def scan_files():
+
+    for file in file_list:
+
+        if search_pattern(file):
+    
+            print(file)
+
+
+if __name__ == '__main__':
+
+    get_files()
+    scan_files()
+
+
+2)Document - Incident MAtrix
+
+import pandas as pd
+from sklearn.feature_extraction.text import CountVectorizer
+
+import nltk
+from os import listdir
+from os.path import isfile
+
+file_list = []
+
+pattern = "PORTIA"
+
+def get_files():
+
+    for file in listdir("D:/corpus"):
+
+        if file.endswith(".txt"):
+
+            file_list.append(file)
+
+
+def search_pattern():
+    
+    file_content = open("D:/corpus/play1.txt").read()
+    tokens = nltk.word_tokenize(file_content)
+    
+    stemmer = nltk.stem.PorterStemmer()
+
+    
+    vec = CountVectorizer()
+    X = vec.fit_transform(stemmer.stem(token) for token in tokens)
+    df = pd.DataFrame(X.toarray(), columns=vec.get_feature_names())
+    df.to_csv('TDIM.csv')
+
+def scan_files():
+
+    for file in file_list:
+        
+        search_pattern(file)
+
+if __name__ == '__main__':
+    
+    search_pattern()
+
+data_set = pd.read_csv('TDIM.csv')
+
+
+3)Tokenizing, Stemming
+
+import nltk
+
+from nltk.corpus import stopwords
+
+def search_pattern():
+    
+    file_content = open("D:/corpus/play1.txt").read()
+    
+    word_punct_tokenizer = nltk.tokenize.WordPunctTokenizer()
+    
+    # TOKENIZATION
+    token_words = word_punct_tokenizer.tokenize(file_content)
+    
+    copy_token_words = token_words
+    
+    for token in token_words :
+        
+        if token in stopwords.words('english'):
+            
+            copy_token_words.remove(token)
+            
+    #print(copy_token_words)
+    
+    
+    # CAPITALIZATION/CASE FOLDING
+   
+    
+    
+    
+    #STEMMING
+    
+    stem = nltk.stem.PorterStemmer()
+    
+    copy_token_words = [stem.stem(word) for word in copy_token_words]
+    #print(copy_token_words)
+    
+    copy_token_words = [word.capitalize() for word in copy_token_words]
+    
+    print(copy_token_words)
+            
+
+if __name__ == '__main__':
+    
+    search_pattern()
+
+
+
+
+
+
